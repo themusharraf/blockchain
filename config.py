@@ -20,7 +20,7 @@ DB_CONFIG = {
     },
     "apps": {
         "models": {
-            "models": ["models", "aerich.models"],
+            "models": ["models.user", "aerich.models"],
             "default_connection": "default",
         }
     }

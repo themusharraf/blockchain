@@ -4,6 +4,7 @@ from config import BOT_TOKEN
 from handlers import register_all_handlers
 from tortoise import Tortoise
 from config import init_db
+from middlewares.logging_middeware import CustomLoggingMiddleware
 
 
 async def main():
@@ -11,11 +12,11 @@ async def main():
     try:
         bot = Bot(token=BOT_TOKEN)
         dp = Dispatcher()
+        dp.message.middleware(CustomLoggingMiddleware())
         register_all_handlers(dp)
         await dp.start_polling(bot)
     finally:
         await Tortoise.close_connections()
-
 
 
 if __name__ == "__main__":
