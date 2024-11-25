@@ -21,3 +21,8 @@ async def add_user(tg_id: int, full_name: str, username: str, referred_by_code: 
             await referrer.save()
 
     await user.save()
+
+
+async def get_user(tg_id: int):
+    user = await User.get_or_none(tg_id=tg_id)
+    return user

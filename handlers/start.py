@@ -4,6 +4,7 @@ from aiogram.filters import Command
 from models.user import User
 from services.user import add_user
 from config import BOT_USERNAME
+from keyboards.buttons import balance
 
 router = Router()
 
@@ -18,7 +19,7 @@ async def cmd_start(message: Message):
         await message.answer(f"{message.from_user.full_name} Welcome! You have been successfully registered.")
 
     else:
-        await message.answer("You are already registered.")
+        await message.answer("You are already registered.", reply_markup=balance)
 
 
 @router.message(Command('my_ref'))
