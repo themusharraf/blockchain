@@ -26,3 +26,7 @@ async def add_user(tg_id: int, full_name: str, username: str, referred_by_code: 
 async def get_user(tg_id: int):
     user = await User.get_or_none(tg_id=tg_id)
     return user
+
+async def check_address(token:str):
+    user = await User.get_or_none(referral_code=token)
+    return user

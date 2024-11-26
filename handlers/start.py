@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import Command
 from models.user import User
@@ -22,7 +22,7 @@ async def cmd_start(message: Message):
         await message.answer("You are already registered.", reply_markup=balance)
 
 
-@router.message(Command('my_ref'))
+@router.message(F.text == 'Referral')
 async def my_referrals(message: Message):
     user = await User.get(tg_id=message.from_user.id)
     print(user)

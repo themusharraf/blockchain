@@ -22,3 +22,22 @@ class User(Model):
             referral_code = str(uuid.uuid4())
             if not await cls.filter(referral_code=referral_code).exists():
                 return referral_code
+
+
+class Transaction(Model):
+    id = fields.IntField(pk=True)
+    sender = fields.ForeignKeyField("models.User", related_name="sent_transactions", null=True)
+    receiver = fields.ForeignKeyField("models.User", related_name="received_transactions", null=True)
+    amount = fields.IntField(null=True)
+    timestamp = fields.DatetimeField(auto_now_add=True)
+    note = fields.CharField(max_length=255)
+
+    @classmethod
+    async def create_transaction(cls, sender: User, receiver: User, amount: int, note: str = None):
+        if sender.balance < amount:
+            raise ValueError("sender balance must be greater than receiver balance")
+        sender.balance -= amount
+        receiver.balance += amount
+        await sender.save()
+        await receiver.save()
+        await cls.create(sender=sender, receiver=receiver, amount=amount, note=note)
